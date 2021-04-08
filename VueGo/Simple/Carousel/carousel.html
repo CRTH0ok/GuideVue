@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>vue.js动态文字滚动公告代码</title>
+    <script src="../../vue.js"></script>
+    <style>
+      div,
+      ul,
+      li,
+      span,
+      img {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        box-sizing: border-box;
+      }
+
+      .marquee {
+        width: 100%;
+        height: 308px;
+        color: #3a3a3a;
+        box-sizing: border-box;
+      }
+
+      .marquee_box {
+        display: block;
+        position: relative;
+        width: 60%;
+        /* 占四分之三的高度  */
+        height: 86%;
+        overflow: hidden;
+      }
+
+      .marquee_list {
+        display: block;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .marquee_top {
+        transition: all 0.5s ease-out;
+        margin-top: -44px;
+      }
+
+      .marquee_list li {
+        height: 44px;
+        line-height: 30px;
+        font-size: 14px;
+        padding-left: 20px;
+      }
+
+      .marquee_list li span {
+        padding: 0 2px;
+      }
+
+      .red {
+        color: #ff0101;
+      }
+    </style>
+  </head>
+  <body
+    style="width: 100vw; height: 100vh; padding: 10px; box-sizing: border-box;"
+  >
+    <div class="vueBox">
+      <div class="marquee">
+        <div class="marquee_box">
+          <ul class="marquee_list" :class="{marquee_top:animate}">
+            <li
+              v-for="(item, index) in marqueeList"
+              :key="index"
+              :style="{background: item.background, display: 'flex', 'justify-content': 'space-between',  'align-items': 'center'}"
+            >
+              <span>{{item.name}}</span>
+              <span>在</span>
+              <span class="red"> {{item.city}}</span>
+              <span>杀敌</span>
+              <span class="red"> {{item.amount}}</span>
+              <span>万</span>
+              <span
+                ><img
+                  :src="item.src?item.src: ''"
+                  style="width: 15px; height: 15px;"
+                  alt=""
+              /></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      const vm = new Vue({
+        el: ".vueBox",
+        data: {
+          animate: false,
+          marqueeList: [
+            {
+              name: "1军",
+              city: "北京",
+              amount: "10",
+              background: "rgba(0,0,0,.4)",
+              src: "../img/冠军.png"
+            },
+            {
+              name: "2军",
+              city: "上海",
+              amount: "20",
+              background: "rgba(0,0,0,.6)",
+              src: "../img/亚军.png"
+            },
+            {
+              name: "3军",
+              city: "广州",
+              amount: "30",
+              background: "rgba(0,0,0,.4)",
+              src: "../img/季军.png"
+            },
+            {
+              name: "4军",
+              city: "重庆",
+              amount: "40",
+              background: "rgba(0,0,0,.6)"
+            },
+            {
+              name: "5军",
+              city: "天津",
+              amount: "50",
+              background: "rgba(0,0,0,.4)"
+            },
+            {
+              name: "6军",
+              city: "西安",
+              amount: "60",
+              background: "rgba(0,0,0,.6)"
+            },
+            {
+              name: "7军",
+              city: "武汉",
+              amount: "70",
+              background: "rgba(0,0,0,.4)"
+            },
+            {
+              name: "8军",
+              city: "南昌",
+              amount: "80",
+              background: "rgba(0,0,0,.6)"
+            }
+          ]
+        },
+        created: function() {
+          setInterval(this.showMarquee,500);
+        },
+        methods: {
+          showMarquee: function() {
+            this.animate = true;
+            setTimeout(() => {
+              if (this.marqueeList.length % 2 != 0) {
+                this.marqueeList[0]["background"] =
+                  this.marqueeList[0]["background"] === "rgba(0,0,0,.4)"
+                    ? "rgba(0,0,0,.6)"
+                    : "rgba(0,0,0,.4)";
+              }
+              this.marqueeList.push(this.marqueeList[0]);
+              this.marqueeList.shift();
+              this.animate = false;
+            });
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

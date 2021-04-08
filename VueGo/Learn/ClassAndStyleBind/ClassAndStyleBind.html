@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Class和style绑定</title>
+    <script src="../../JQuery/jquery.min.js"></script>
+    <script src="../../vue.js"></script>
+</head>
+
+<body>
+    <div id="class">
+        <div class="static" v-bind:class="{active:isActive, 'text-danger':hasError}"></div>
+    </div>
+    <div id='classObj'>
+        <div v-bind:class="useClassObj"></div>
+        <div v-bind:class="[activeClass,errorClass]"></div>
+        <div v-bind:class="[isActive == true ? 'Active' : '',errorClass]"></div>
+    </div>
+    <div id='classComponent'>
+        <my-Component class="addition"></my-Component>
+    </div>
+
+    <div id="components-demo">
+        <button-counter></button-counter>
+    </div>
+
+    <div id="styleBind">
+        <div v-bind:style="{color:activeColor,fontSize:fontSize+'px'}">bindStyle</div>
+        <div v-bind:style="bindStyleObj">bindStyleObj</div>
+    </div>
+</body>
+<script>
+    var classVue = new Vue({
+        el: '#class',
+        data: {
+            isActive: true,
+            hasError: true,
+        }
+    })
+
+    var classObjVue = new Vue({
+        el: '#classObj',
+        data: {
+            isActive: true,
+            error: null,
+            activeClass: 'active',
+            errorClass: 'error'
+        },
+        computed: {
+            useClassObj: function () {
+                return {
+                    active: this.isActive && !this.error,
+                    'text-danger': this.error && this.error.type == 'fatel'
+                }
+            }
+        },
+    })
+    // Vue.component('my-component', {
+    //     template: '<p class="foo bar">Hi</p>'
+    // })
+    //vue组件的定义必须小写，但使用不做限制
+    Vue.component('my-component', {
+        template: '<p class="foo bar">Hi</p>'
+    })
+
+    new Vue({
+        el: '#classComponent'
+    })
+
+    // 定义一个名为 button-counter 的新组件
+    Vue.component('button-counter', {
+        data: function () {
+            return {
+                count: 0
+            }
+        },
+        template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+    })
+
+    new Vue({ el: '#components-demo' });
+
+    var styleBindVue = new Vue({
+        el: '#styleBind',
+        data: {
+            activeColor: 'red',
+            fontSize: '30',
+            bindStyleObj: {
+                color: 'blue',
+                fontSize: '40px'
+            }
+        }
+    })
+</script>
+
+</html>

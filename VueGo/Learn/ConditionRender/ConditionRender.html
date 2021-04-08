@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<head>
+    <title>条件渲染</title>
+    <script src="../../JQuery/jquery.min.js"></script>
+    <script src="../../vue.js"></script>
+</head>
+
+<body>
+    <div id="conditionDemo">
+        <h2 v-if="awesome">Vue is awesome</h2>
+        <h2 v-else>😢</h2>
+
+        <template v-if="ok">
+            <h1>Title</h1>
+            <p>Paragraph 1</p>
+            <p>Paragraph 2</p>
+        </template>
+
+        <div v-if="Math.random() > 0.5">
+            Current num biger then 0.5
+        </div>
+        <div v-else>
+            This num lower then 0.5
+        </div>
+
+        <div v-if="type === 'A'">
+            A
+        </div>
+        <div v-else-if="type === 'B'">
+            B
+        </div>
+        <div v-else-if="type === 'C'">
+            C
+        </div>
+        <div v-else>
+            NOT A/B/C
+        </div>
+
+        <br>
+        <template v-if="loginType === 'userName'">
+            <label>UserName</label>
+            <input placeholder="Enter You Name">
+        </template>
+        <template v-else>
+            <label>Email</label>
+            <input placeholder="Enter You Email">
+        </template>
+        <br>
+        <p>Use Key to refresh placeholder.It make the input label is unique</p>
+        <template v-if="loginType === 'userName'">
+            <label>UserName</label>
+            <input placeholder="Enter You Name" key='userName-input'>
+        </template>
+        <template v-else>
+            <label>Email</label>
+            <input placeholder="Enter You Email" key='email-input'>
+        </template>
+        <br>
+        <button v-on:click="changeType">Cilck to CHANGE</button>
+    </div>
+</body>
+<script>
+    var conditionVue = new Vue({
+        el: '#conditionDemo',
+        data: {
+            awesome: 'true',
+            ok: true,
+            type: 'D',
+            loginType: 'userName'
+        },
+        methods: {
+            changeType: function () {
+                console.log(this.loginType);
+                this.loginType === 'userName' ? this.loginType = 'email' : this.loginType = 'userName';
+            }
+        },
+    })
+</script>
+
+</html>
