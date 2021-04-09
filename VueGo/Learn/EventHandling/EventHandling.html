@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>监听事件</title>
+    <script src="../../vue.js"></script>
+</head>
+
+<body>
+    <div id='counterAdd1'>
+        <button v-on:click="counter += 1">ClickToAdd</button>
+        <p>The button above have been click {{counter}} : times</p>
+    </div>
+
+    <div id='greatTest'>
+        <button v-on:click="great">Click</button>
+        <br>
+        <button v-on:click="say('hi')">Hi</button>
+        <button v-on:click="say('fine')">fine</button>
+    </div>
+</body>
+<script>
+    var counterVue = new Vue({
+        el: '#counterAdd1',
+        data: {
+            counter: 0
+        }
+    })
+
+    var greatVue = new Vue({
+        el: '#greatTest',
+        data: {
+            name: 'Vue.js'
+        },
+        methods: {
+            great: function (event) {
+                // `this` 在方法里指向当前 Vue 实例
+                alert('Hello ' + this.name + '!')
+                // `event` 是原生 DOM 事件
+                if (event) {
+                    alert(event.target.tagName)
+                }
+            },
+            sat: function (str) {
+                alert(str);
+            }
+        }
+    })
+</script>
+
+</html>
